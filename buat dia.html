@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haii Kak Maria~ 🌹</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #d4738e;
+  --pink2: #b85c78;
+  --purple: #9d7bc4;
+  --purple2: #7a5aa0;
+  --yellow: #c9a84c;
+  --mint: #4aaa88;
+  --red: #c06060;
+  --bg: #130d1a;
+  --card: #1e1528;
+  --card2: #241930;
+  --text: #e8d5f0;
+  --soft: #9e85b5;
+  --border: #362848;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Nunito',sans-serif;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 15% 15%, #25103a 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 85%, #0f1830 0%, transparent 55%);
+  min-height:100vh; overflow-x:hidden; color:var(--text);
+}
+
+/* FLOATING PETALS */
+.petals { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+.petal { position:absolute; animation:petalFall linear infinite; opacity:0; }
+@keyframes petalFall {
+  0%   { transform:translateY(-5vh) rotate(0deg); opacity:0; }
+  10%  { opacity:0.45; }
+  90%  { opacity:0.3; }
+  100% { transform:translateY(108vh) rotate(500deg) translateX(30px); opacity:0; }
+}
+
+/* LAYOUT */
+.container { position:relative; z-index:1; max-width:660px; margin:0 auto; padding:2rem 1.4rem 4rem; }
+
+/* SECTIONS */
+.section { display:none; }
+.section.active { display:block; animation:fadeUp 0.45s both; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+@keyframes popIn  { from{opacity:0;transform:scale(0.5)} to{opacity:1;transform:scale(1)} }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes correctPop { 0%{transform:scale(1)} 50%{transform:scale(1.12)} 100%{transform:scale(1)} }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+
+/* HEADER */
+.header { text-align:center; margin-bottom:2rem; animation:popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both; }
+.avatar { font-size:5rem; display:block; margin-bottom:0.5rem; animation:bounce 2.2s ease-in-out infinite; }
+.greeting {
+  font-family:'Gaegu',cursive; font-size:2.8rem; font-weight:700;
+  background:linear-gradient(135deg,var(--pink),var(--purple));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.subtitle { font-size:0.95rem; color:var(--soft); margin-top:0.4rem; font-weight:600; }
+
+/* NAV DOTS */
+.dots { display:flex; justify-content:center; gap:0.5rem; margin-bottom:1.5rem; }
+.dot { width:8px; height:8px; border-radius:50%; background:var(--border); transition:all 0.3s; }
+.dot.active { background:var(--pink); width:24px; border-radius:4px; }
+
+/* CARD */
+.card {
+  background:var(--card); border-radius:22px; padding:1.5rem;
+  margin-bottom:1.2rem; border:1.5px solid var(--border);
+  box-shadow:0 4px 30px rgba(0,0,0,0.5);
+  transition:transform 0.2s, box-shadow 0.2s;
+}
+.card:hover { transform:translateY(-3px); box-shadow:0 8px 40px rgba(157,123,196,0.12); }
+.card-title {
+  font-size:0.78rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em;
+  margin-bottom:0.8rem; display:flex; align-items:center; gap:0.4rem; color:var(--pink);
+}
+.tag {
+  display:inline-block;
+  background:linear-gradient(135deg,#3a1828,#281540);
+  color:#c090b0; border-radius:99px;
+  padding:0.22rem 0.75rem; font-size:0.76rem; font-weight:800;
+  margin-bottom:0.8rem; border:1px solid #4a2540;
+}
+
+/* BTN */
+.btn {
+  border:none; border-radius:13px; padding:0.7rem 1.6rem;
+  font-family:'Nunito',sans-serif; font-size:0.92rem; font-weight:800;
+  cursor:pointer; transition:all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.btn:hover { transform:scale(1.05); }
+.btn-p { background:linear-gradient(135deg,#7a3050,#5a3080); color:#f0d0e8; }
+.btn-p:hover { background:linear-gradient(135deg,#8a3860,#6a3890); }
+.btn-o { background:#1e1528; border:1.5px solid var(--border); color:var(--soft); }
+.btn-o:hover { background:#2a1c35; color:var(--text); }
+
+/* PROGRESS */
+.prog { display:flex; align-items:center; gap:0.7rem; margin-bottom:1rem; }
+.prog-track { flex:1; height:7px; background:#2a1a3a; border-radius:99px; overflow:hidden; }
+.prog-fill { height:100%; background:linear-gradient(90deg,var(--pink),var(--purple)); border-radius:99px; width:0%; transition:width 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+.prog-txt { font-size:0.78rem; font-weight:800; color:var(--purple); white-space:nowrap; }
+
+/* MOOD */
+.mood-q { font-family:'Gaegu',cursive; font-size:1.5rem; font-weight:700; color:var(--purple); text-align:center; margin-bottom:1.2rem; line-height:1.5; }
+.mood-btns { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+.mood-btn {
+  background:var(--card2); border:1.5px solid var(--border); border-radius:18px;
+  padding:1.1rem 1.4rem; font-size:2rem; cursor:pointer; color:var(--text);
+  transition:all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  display:flex; flex-direction:column; align-items:center; gap:0.3rem;
+}
+.mood-btn span { font-size:0.78rem; font-weight:800; color:var(--soft); font-family:'Nunito',sans-serif; }
+.mood-btn:hover { transform:scale(1.08); border-color:var(--purple); background:#2a1c38; }
+.mood-bad { border-color:#4a2525 !important; }
+.mood-bad:hover { border-color:var(--red) !important; }
+.bad-msg {
+  background:linear-gradient(135deg,#1e1228,#181525);
+  border-radius:14px; padding:1.1rem;
+  font-size:0.95rem; color:var(--purple); font-weight:600;
+  line-height:1.7; text-align:center;
+  border:1.5px dashed #3a2550; margin-top:1rem; display:none;
+}
+.bad-msg.show { display:block; animation:popIn 0.4s both; }
+
+/* KPOP */
+.bias-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.6rem; }
+.bias-btn {
+  background:#201a08; border:1.5px solid #3a3010;
+  border-radius:13px; padding:0.65rem 0.3rem;
+  font-family:'Nunito',sans-serif; font-size:0.82rem; font-weight:700;
+  color:#c0a060; cursor:pointer; text-align:center;
+  transition:all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.bias-btn:hover { transform:scale(1.08); background:#2a2210; }
+.bias-btn.sel { background:#302800; border-color:var(--yellow); transform:scale(1.1); color:#e0c070; }
+.bias-res { margin-top:0.8rem; font-size:0.9rem; font-weight:700; color:#c0a060; text-align:center; min-height:1.4em; }
+
+/* DRAKOR */
+.drakor-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.65rem; }
+.drakor-item {
+  background:#1e1020; border:1.5px solid #35183a; border-radius:14px;
+  padding:0.8rem; cursor:pointer; text-align:center;
+  transition:all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.drakor-item:hover { transform:scale(1.05); border-color:var(--pink); background:#251528; }
+.drakor-item.liked { background:#281220; border-color:var(--pink); }
+.d-emoji { font-size:1.9rem; display:block; margin-bottom:0.3rem; }
+.d-title { font-size:0.8rem; font-weight:800; color:#c888a0; margin-bottom:0.2rem; }
+.d-genre { font-size:0.7rem; color:var(--soft); font-weight:600; }
+.drakor-res {
+  margin-top:0.8rem; padding:0.75rem; border-radius:11px;
+  background:linear-gradient(135deg,#25122a,#1e1530);
+  font-weight:700; font-size:0.88rem; color:var(--purple);
+  text-align:center; display:none; border:1px solid #3a2048;
+}
+.drakor-res.show { display:block; animation:popIn 0.4s both; }
+
+/* CLOCK */
+.clock-big {
+  font-family:'Gaegu',cursive; font-size:4.2rem; font-weight:700; text-align:center;
+  background:linear-gradient(135deg,var(--pink),var(--purple));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  line-height:1; padding:1rem 0 0.3rem;
+}
+.clock-date { font-size:0.85rem; color:var(--soft); font-weight:600; text-align:center; margin-bottom:1rem; }
+
+/* BIBLE */
+.lv-badge {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  background:linear-gradient(135deg,#4a1a28,#2a1545);
+  color:#c090b0; border-radius:99px; padding:0.28rem 0.9rem;
+  font-size:0.82rem; font-weight:800; margin-bottom:1rem; border:1px solid #5a2840;
+}
+.verse-box {
+  background:linear-gradient(135deg,#181210,#101520);
+  border-radius:14px; padding:1.1rem;
+  border-left:4px solid var(--pink);
+  font-size:0.97rem; color:#d5c5e0; line-height:1.8;
+  font-style:italic; margin-bottom:1rem;
+}
+.verse-hint { font-size:0.8rem; color:var(--soft); font-style:normal; margin-top:0.5rem; }
+.bible-input {
+  width:100%; padding:0.75rem 1rem;
+  border:1.5px solid var(--border); border-radius:13px;
+  font-family:'Nunito',sans-serif; font-size:0.92rem; font-weight:600;
+  color:var(--text); outline:none; background:#180e22;
+  margin-bottom:0.75rem; transition:border-color 0.2s;
+}
+.bible-input:focus { border-color:var(--pink); }
+.bible-fb {
+  border-radius:11px; padding:0.75rem 1rem;
+  font-weight:700; font-size:0.9rem; display:none; margin-bottom:0.75rem;
+}
+.bible-fb.show { display:block; animation:popIn 0.4s both; }
+.bible-fb.ok  { background:#0a2018; color:#6ee7b7; border:1px solid #154030; }
+.bible-fb.no  { background:#200a0a; color:#f09090; border:1px solid #401515; }
+
+/* SKIP WARNING */
+.skip-warn {
+  background:#200f0f; border:1.5px solid #5a1a1a; border-radius:11px;
+  padding:0.7rem 1rem; font-weight:800; font-size:0.88rem; color:#e08080;
+  text-align:center; display:none; margin-bottom:0.7rem; animation:shake 0.4s both;
+}
+.skip-warn.show { display:block; }
+
+/* RIDDLE */
+.riddle-q { font-size:1rem; font-weight:700; color:var(--text); margin-bottom:1rem; line-height:1.6; }
+.riddle-opts { display:grid; grid-template-columns:1fr 1fr; gap:0.55rem; }
+.riddle-btn {
+  background:#201020; border:1.5px solid #3a1835;
+  border-radius:13px; padding:0.75rem 0.5rem;
+  font-family:'Nunito',sans-serif; font-size:0.85rem; font-weight:700;
+  color:#c888a8; cursor:pointer; text-align:center;
+  transition:all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.riddle-btn:hover { background:#2a1530; border-color:var(--pink); transform:scale(1.04); }
+.riddle-btn.ok { background:#0a2018; border-color:#2a5535; color:#6ee7b7; animation:correctPop 0.4s both; }
+.riddle-btn.no { background:#200a0a; border-color:#5a1a1a; color:#f09090; animation:shake 0.4s; }
+.riddle-fb { margin-top:0.75rem; padding:0.75rem; border-radius:11px; font-weight:700; font-size:0.88rem; text-align:center; display:none; }
+.riddle-fb.show { display:block; animation:popIn 0.4s both; }
+.riddle-fb.ok-msg { background:#0a2018; color:#6ee7b7; border:1px solid #154030; }
+.riddle-fb.no-msg { background:#201808; color:#e0c060; border:1px solid #403010; }
+
+/* FINAL */
+.final { text-align:center; padding:1.5rem 0.5rem; }
+.rose-row { font-size:2rem; letter-spacing:0.3rem; margin:0.25rem 0; }
+.rose-msg { font-family:'Gaegu',cursive; font-size:1.2rem; color:var(--pink); margin-top:0.7rem; font-weight:700; }
+.final-title {
+  font-family:'Gaegu',cursive; font-size:2.1rem; font-weight:700;
+  background:linear-gradient(135deg,var(--pink),var(--purple));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  margin:1rem 0 0.7rem;
+}
+.final-msg {
+  background:linear-gradient(135deg,#1e1228,#181525);
+  border-radius:14px; padding:1.1rem; color:var(--purple);
+  font-weight:600; font-size:0.95rem; line-height:1.7;
+  border:1.5px dashed #3a2550;
+}
+
+/* CONFETTI */
+.conf { position:fixed; pointer-events:none; z-index:999; animation:confFall 1.4s ease-out forwards; }
+@keyframes confFall { 0%{transform:translateY(-20px) rotate(0);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+
+@keyframes shimmer { 0%{left:-100%} 100%{left:200%} }
+@keyframes cursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes secretReveal { from{opacity:0;transform:translateY(16px) scale(0.97)} to{opacity:1;transform:translateY(0) scale(1)} }
+
+/* LOCK SCREEN */
+.lock {
+  position:fixed; inset:0; z-index:1000;
+  background:rgba(8,4,14,0.97);
+  display:none; flex-direction:column; align-items:center; justify-content:center;
+  padding:2rem; text-align:center; animation:fadeUp 0.4s both;
+}
+.lock.show { display:flex; }
+.lock-icon { font-size:4rem; margin-bottom:0.8rem; animation:bounce 2s infinite; }
+.lock-title { font-family:'Gaegu',cursive; font-size:2rem; font-weight:700; color:var(--pink); margin-bottom:0.6rem; }
+.lock-desc { color:var(--soft); font-size:0.92rem; font-weight:600; line-height:1.6; margin-bottom:1.4rem; max-width:340px; }
+.lock-input {
+  width:100%; max-width:340px; padding:0.85rem 1rem;
+  border:1.5px solid var(--border); border-radius:13px;
+  font-family:'Nunito',sans-serif; font-size:0.92rem; font-weight:600;
+  color:var(--text); outline:none; background:#180e22; text-align:center;
+  margin-bottom:0.7rem; transition:border-color 0.2s;
+}
+.lock-input:focus { border-color:var(--pink); }
+.lock-wrong { color:var(--red); font-size:0.82rem; font-weight:700; margin-top:0.4rem; display:none; }
+.lock-hint { color:#4a2860; font-size:0.78rem; font-weight:600; margin-top:0.4rem; }
+</style>
+</head>
+<body>
+
+<!-- LOCK SCREEN -->
+<div class="lock" id="lockScreen">
+  <div class="lock-icon">🔒</div>
+  <div class="lock-title">Website Terkunci!</div>
+  <div class="lock-desc">
+    Kak Maria terlalu sering skip nih~<br>
+    Buat buka kuncinya, hubungi yang kirim website ini ya! 😄<br><br>
+     masukkan kode rahasianya:
+  </div>
+  <input class="lock-input" id="lockInput" type="text" placeholder="Ketik kode rahasia di sini..." oninput="checkLock()" />
+  <div class="lock-wrong" id="lockWrong">Belum tepat~ Coba minta kodenya dulu 🌹</div>
+  <div class="lock-hint">💡 Hubungi yang kirim untuk dapat kode</div>
+</div>
+
+<!-- FLOATING PETALS -->
+<div class="petals" id="petalsEl"></div>
+
+<div class="container">
+  <div class="header">
+    <span class="avatar">🌹</span>
+    <div class="greeting">Haii, Kak Maria~ 🌸</div>
+    <div class="subtitle">Ada sesuatu spesial buat Kak Maria Tabita 💕</div>
+  </div>
+
+  <div class="dots" id="dotsEl"></div>
+
+  <!-- 1. MOOD -->
+  <div class="section active" id="s-mood">
+    <div class="card">
+      <div class="card-title">💭 Mood Check</div>
+      <div class="mood-q">Hei Kak Maria~ Hari ini gimana kabarnya? 🌸</div>
+      <div class="mood-btns">
+        <button class="mood-btn" onclick="goodMood()">😊<span>Mood Bagus!</span></button>
+        <button class="mood-btn mood-bad" id="badBtn" onclick="badMood()">😞<span>Mood Kurang Baik</span></button>
+      </div>
+      <div class="bad-msg" id="badMsg">
+        💬 <em>[aih, kok iso? Untung kakk gak ketemu Socrates, kalau ketemu otw dibuat tambah badmood wkwkkw.]</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. KPOP -->
+  <div class="section" id="s-kpop">
+    <div class="card" style="border-color:#2a2015;">
+      <div class="card-title" style="color:var(--yellow);">⭐ Kpop Bias Picker</div>
+      <div class="tag">Siapa bias Kak Maria hari ini?</div>
+      <div class="bias-grid" id="biasGrid"></div>
+      <div class="bias-res" id="biasRes">Pilih salah satu! 👆</div>
+      <div style="text-align:center;margin-top:1rem;">
+        <button class="btn btn-p" id="biasNext" onclick="goTo('s-drakor')" style="display:none;">Lanjut ke Drakor Picker! 🎬</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. DRAKOR -->
+  <div class="section" id="s-drakor">
+    <div class="card" style="border-color:#2a1520;">
+      <div class="card-title" style="color:var(--pink);">🎬 Drakor Picker</div>
+      <div class="tag">Kak Maria suka Drakor~ Pilih mood hari ini! 📺</div>
+      <div class="drakor-grid" id="drakorGrid"></div>
+      <div class="drakor-res" id="drakorRes"></div>
+      <div style="text-align:center;margin-top:1rem;">
+        <button class="btn btn-p" id="drakorNext" onclick="goTo('s-clock')" style="display:none;">Lanjut! 🕐</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. CLOCK -->
+  <div class="section" id="s-clock">
+    <div class="card">
+      <div class="card-title" style="color:var(--purple);">🕐 Sekarang Jam...</div>
+      <div class="clock-big" id="clockBig">00:00:00</div>
+      <div class="clock-date" id="clockDate"></div>
+      <div id="clockMsg"></div>
+    </div>
+  </div>
+
+  <!-- 5. BIBLE -->
+  <div class="section" id="s-bible">
+    <div class="card" style="border-color:#2a2010;">
+      <div class="card-title" style="color:var(--yellow);">📖 Tebak Kitab & Pasal</div>
+      <div class="lv-badge" id="lvBadge">Level 1 — Pemanasan ✨</div>
+      <div class="prog"><div class="prog-track"><div class="prog-fill" id="bProg"></div></div><div class="prog-txt" id="bProgTxt">0/10</div></div>
+      <div class="verse-box" id="verseBox"></div>
+      <div class="skip-warn" id="skipWarn"></div>
+      <input class="bible-input" id="bInput" type="text" placeholder="Contoh: Yohanes 3:16" />
+      <div class="bible-fb" id="bFb"></div>
+      <div style="display:flex;gap:0.7rem;flex-wrap:wrap;">
+        <button class="btn btn-p" onclick="checkBible()">Jawab! 📝</button>
+        <button class="btn btn-o" id="skipBtn" onclick="trySkip()">Skip (lihat jawaban)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. RIDDLE -->
+  <div class="section" id="s-riddle">
+    <div class="card" style="border-color:#2a1525;">
+      <div class="card-title" style="color:var(--pink);">🌸 Mini Quiz Seru</div>
+      <div class="tag">Jawab dengan jujur ya, Kak~ 🌷</div>
+      <div class="riddle-q" id="riddleQ"></div>
+      <div class="riddle-opts" id="riddleOpts"></div>
+      <div class="riddle-fb" id="riddleFb"></div>
+      <div style="text-align:center;margin-top:0.9rem;">
+        <button class="btn btn-p" id="riddleNext" onclick="nextRiddle()" style="display:none;">Selanjutnya ➡️</button>
+      </div>
+      <div class="prog" style="margin-top:1rem;"><div class="prog-track"><div class="prog-fill" id="rProg"></div></div><div class="prog-txt" id="rProgTxt">0/5</div></div>
+    </div>
+  </div>
+
+  <!-- 7. FINAL -->
+  <div class="section" id="s-final">
+    <div class="card" style="border-color:#2a1840;">
+      <div class="final">
+
+        <!-- INTERACTIVE BOUQUET -->
+        <div id="bouquet" style="cursor:pointer;user-select:none;display:inline-block;" onclick="touchBouquet()">
+          <div class="rose-row" id="rr1">🌹🌹🌹</div>
+          <div class="rose-row" id="rr2">🌹🌸🌹</div>
+          <div class="rose-row" id="rr3">🌹🌹🌹</div>
+        </div>
+        <div class="rose-msg" id="roseTxt">Hmm kepo gak kak?, jangan dipencet bunganya kak ↑↑↑ "jujur malu🤐" </div>
+        <div id="bouquetDialog" style="min-height:1.4rem;font-size:0.88rem;color:var(--soft);font-weight:700;margin-top:0.4rem;transition:opacity 0.3s;"></div>
+
+        <div class="final-title">Makasih udah main, Kak Maria!</div>
+
+        <!-- SECRET MESSAGE -->
+        <div id="secretMsg" style="display:none; margin:1.2rem 0;">
+          <div id="secretCard" style="
+            background:linear-gradient(135deg,#1a0e28,#0e1520);
+            border:1.5px solid #4a2060; border-radius:18px;
+            padding:1.4rem; text-align:left; position:relative; overflow:hidden;
+          ">
+            <!-- shimmer line -->
+            <div style="position:absolute;top:0;left:-100%;width:60%;height:100%;
+              background:linear-gradient(90deg,transparent,rgba(212,115,142,0.06),transparent);
+              animation:shimmer 2.5s infinite;" id="shimmerEl"></div>
+            <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:#6a4080;margin-bottom:0.6rem;">🎵 Lagu buat Kak Maria</div>
+            <div style="font-family:'Gaegu',cursive;font-size:1.3rem;font-weight:700;color:var(--pink);margin-bottom:0.3rem;">Jadikan Aku Yang Kedua</div>
+            <div style="font-size:0.78rem;color:var(--soft);margin-bottom:1.2rem;font-style:italic;">— Astrid Sartiasri</div>
+            <div style="border-top:1px solid #2a1540;padding-top:1rem;">
+              <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#6a4080;margin-bottom:0.6rem;">🎼 Reff</div>
+              <div id="typewriterText" style="
+                font-size:0.95rem; color:var(--text); font-weight:600;
+                line-height:1.8; min-height:2rem; font-family:'Nunito',sans-serif;
+              "></div>
+              <span id="typeCursor" style="
+                display:inline-block; width:2px; height:1.1em;
+                background:var(--pink); margin-left:2px; vertical-align:middle;
+                animation:cursorBlink 0.7s infinite;
+              "></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="final-msg">
+          Semoga hari ini Kak Maria selalu tersenyum dan bersemangat ya~ 🌟<br><br>
+          PKL-nya pasti lancar, karena Kak Maria udah biasa jadi andalan! 💪<br><br>
+          Kalau lagi capek, istirahat dulu, nonton Drakor favorit, dan ingat —<br>
+          ada yang selalu dukung kak maria dari jauh "lewat Papi Jesus"🌹✨
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end container -->
+
+<script>
+// ===== PETALS =====
+const petalEmojis = ['🌹','🌸','🌹','💕','🌹','✨','🌷','🌹','💗','🌹'];
+const petalsEl = document.getElementById('petalsEl');
+for (let i = 0; i < 20; i++) {
+  const el = document.createElement('div');
+  el.className = 'petal';
+  el.textContent = petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
+  el.style.left = Math.random()*100+'vw';
+  el.style.fontSize = (0.9+Math.random()*1.1)+'rem';
+  el.style.animationDuration = (8+Math.random()*10)+'s';
+  el.style.animationDelay = (Math.random()*12)+'s';
+  petalsEl.appendChild(el);
+}
+
+// ===== CONFETTI =====
+function confetti(n=30) {
+  const colors=['#d4738e','#9d7bc4','#c9a84c','#4aaa88','#c888b0'];
+  for(let i=0;i<n;i++) setTimeout(()=>{
+    const el=document.createElement('div');
+    el.className='conf';
+    el.style.cssText=`left:${10+Math.random()*80}vw;top:-20px;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${1+Math.random()}s`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),2000);
+  },i*35);
+}
+setTimeout(()=>confetti(20),700);
+
+// ===== SECTIONS + NAV =====
+const secs = ['s-mood','s-kpop','s-drakor','s-clock','s-bible','s-riddle','s-final'];
+const dotsEl = document.getElementById('dotsEl');
+secs.forEach((_,i) => {
+  const d = document.createElement('div');
+  d.className = 'dot'+(i===0?' active':'');
+  d.id = 'dot'+i;
+  dotsEl.appendChild(d);
+});
+
+function goTo(id) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const idx = secs.indexOf(id);
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='s-clock'){runCount=0;renderClock();}
+}
+
+// ===== MOOD =====
+let badCount=0;
+const badBtn=document.getElementById('badBtn');
+function goodMood(){ confetti(30); goTo('s-kpop'); }
+function badMood(){
+  badCount++;
+  if(badCount<5){
+    const maxX=window.innerWidth-180, maxY=window.innerHeight-80;
+    badBtn.style.cssText=`position:fixed;left:${Math.random()*maxX}px;top:${Math.random()*maxY}px;z-index:50;transition:left 0.3s,top 0.3s`;
+  } else {
+    badBtn.style.cssText='';
+    document.getElementById('badMsg').classList.add('show');
+  }
+}
+
+// ===== KPOP =====
+const idols=[
+  {n:'BTS',e:'💜'},{n:'BLACKPINK',e:'🖤'},{n:'TWICE',e:'🌈'},
+  {n:'aespa',e:'🤖'},{n:'NewJeans',e:'🐰'},{n:'IVE',e:'🌺'},
+  {n:'EXO',e:'⭐'},{n:'NCT',e:'🎵'},{n:'ITZY',e:'🦋'},
+];
+const biasResp={
+  'BTS':'Purple you, Kak Maria! 💜 ARMY detected! 🐻',
+  'BLACKPINK':'In your area! 🖤 Kak Maria is Blink! 🌸',
+  'TWICE':'Once in a lifetime! 🌈 Kak Maria suka TWICE! 🎵',
+  'aespa':'Welcome to the MY world! 🤖✨ Kak Maria fans aespa!',
+  'NewJeans':'Attention attention! 🐰 Bunny Kak Maria!',
+  'IVE':'I AM! 🌺 Dive into IVE, Kak Maria!',
+  'EXO':'We are one, Kak Maria! ⭐ EXO-L detected!',
+  'NCT':'Neo Culture Technology! 🎵 Kak Maria NCTzen!',
+  'ITZY':'WANNABE Kak Maria yang kece! 🦋',
+};
+const biasGrid=document.getElementById('biasGrid');
+idols.forEach(idol=>{
+  const b=document.createElement('button');
+  b.className='bias-btn';
+  b.innerHTML=`${idol.e}<br>${idol.n}`;
+  b.onclick=()=>{
+    document.querySelectorAll('.bias-btn').forEach(x=>x.classList.remove('sel'));
+    b.classList.add('sel');
+    document.getElementById('biasRes').textContent=biasResp[idol.n];
+    document.getElementById('biasNext').style.display='inline-block';
+    confetti(12);
+  };
+  biasGrid.appendChild(b);
+});
+
+// ===== DRAKOR =====
+const drakors=[
+  {n:'Crash Landing on You',e:'🪖💕',g:'Romance • Military'},
+  {n:'Goblin',e:'🕯️✨',g:'Fantasy • Romance'},
+  {n:'My Love From The Star',e:'⭐🌙',g:'Sci-fi • Romance'},
+  {n:'Reply 1988',e:'📼🏘️',g:'Nostalgia • Life'},
+  {n:'Boys Over Flowers',e:'🌸👑',g:'Classic • School'},
+  {n:'Descendants of the Sun',e:'🌅💪',g:'Romance • Action'},
+];
+const drakorResp={
+  'Crash Landing on You':'💕 CLOY! Kisah cinta yang ga kenal batas~ Romantis banget pilihannya! 🪖',
+  'Goblin':'🕯️ "Thank you for being born" 😭✨ Taste Kak Maria epic dan bikin nangis ya~',
+  'My Love From The Star':'⭐ Do Min-joon vibes! Suka yang misterius dan romantis ya Kak~ 🌙',
+  'Reply 1988':'📼 Masterpiece! Taste Kak Maria tinggi, bikin nostalgia dan baper bareng~ 🏘️',
+  'Boys Over Flowers':'🌸 Classic sejati! Jun Pyo atau Ji Hoo, Kak Maria? 👀',
+  'Descendants of the Sun':'🌅 Pak tentara ganteng emang susah ditolak ya Kak~ 💪',
+};
+const drakorGrid=document.getElementById('drakorGrid');
+drakors.forEach(d=>{
+  const el=document.createElement('div');
+  el.className='drakor-item';
+  el.innerHTML=`<span class="d-emoji">${d.e}</span><div class="d-title">${d.n}</div><div class="d-genre">${d.g}</div>`;
+  el.onclick=()=>{
+    document.querySelectorAll('.drakor-item').forEach(x=>x.classList.remove('liked'));
+    el.classList.add('liked');
+    const res=document.getElementById('drakorRes');
+    res.textContent=drakorResp[d.n]; res.classList.add('show');
+    document.getElementById('drakorNext').style.display='inline-block';
+    confetti(12);
+  };
+  drakorGrid.appendChild(el);
+});
+
+// ===== CLOCK =====
+const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const mons=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+function tickClock(){
+  const now=new Date();
+  const h=String(now.getHours()).padStart(2,'0');
+  const m=String(now.getMinutes()).padStart(2,'0');
+  const s=String(now.getSeconds()).padStart(2,'0');
+  const el=document.getElementById('clockBig');
+  if(el) el.textContent=`${h}:${m}:${s}`;
+  const de=document.getElementById('clockDate');
+  if(de) de.textContent=`${days[now.getDay()]}, ${now.getDate()} ${mons[now.getMonth()]} ${now.getFullYear()}`;
+}
+setInterval(tickClock,1000); tickClock();
+
+let runCount=0;
+function renderClock(){
+  const hour=new Date().getHours();
+  const msg=document.getElementById('clockMsg');
+  if(hour>=22||hour<4){
+    msg.innerHTML=`
+      <div style="background:linear-gradient(135deg,#0d0820,#0a1020);border-radius:14px;padding:1.2rem;text-align:center;border:1.5px solid #2a1a40;">
+        <div style="font-size:2.5rem;margin-bottom:0.6rem;">🌙✨</div>
+        <div style="font-family:'Gaegu',cursive;font-size:1.3rem;color:#c0b0e0;font-weight:700;margin-bottom:0.5rem;">Udah malem nih, Kak Maria~</div>
+        <div style="font-size:0.88rem;color:var(--soft);font-weight:600;line-height:1.7;">
+          Layarnya udah boleh diistirahatkan ya Kak 🌹<br>
+          Tidur yang cukup biar besok semangat lagi~ 💕<br>
+          <em style="color:#8a7ab0;">Selamat beristirahat, Kak Maria! 🌸</em>
+        </div>
+        <div style="margin-top:1rem;">
+          <button class="btn btn-p" onclick="goTo('s-bible')" style="font-size:0.85rem;">Lanjut dikit dulu ah~ 📖</button>
+        </div>
+      </div>`;
+  } else {
+    msg.innerHTML=`
+      <div style="text-align:center;">
+        <div style="font-family:'Gaegu',cursive;font-size:1.15rem;color:var(--pink);font-weight:700;margin-bottom:1rem;">Masih ada waktu~ mau lanjut games? 🌹</div>
+        <div style="position:relative;height:80px;margin-bottom:0.5rem;" id="runArea">
+          <button id="runBtn" class="btn btn-p" onclick="tryRun()" style="position:absolute;left:50%;transform:translateX(-50%);">Mau lanjut kuis lagi! 🎉</button>
+        </div>
+        <div id="runMsg" style="font-size:0.8rem;color:var(--soft);font-weight:600;min-height:1.2em;"></div>
+      </div>`;
+  }
+}
+function tryRun(){
+  runCount++;
+  const btn=document.getElementById('runBtn');
+  const area=document.getElementById('runArea');
+  const maxX=area.offsetWidth-btn.offsetWidth-10;
+  const msgs=['Eh tunggu dulu~ 😄','Hehe kejar dulu! 🏃','Hampir kena! 👀','Dikit lagi~ 😝'];
+  if(runCount<5){
+    btn.style.left=Math.max(0,Math.random()*maxX)+'px';
+    btn.style.top=Math.random()*40+'px';
+    btn.style.transform='';
+    document.getElementById('runMsg').textContent=msgs[Math.min(runCount-1,msgs.length-1)];
+  } else {
+    btn.style.left='50%'; btn.style.top='0'; btn.style.transform='translateX(-50%)';
+    btn.textContent='Oke oke, lanjut! 🎉';
+    btn.onclick=()=>goTo('s-bible');
+    document.getElementById('runMsg').textContent='Semangat Kak Maria! 🌹✨';
+    confetti(25);
+  }
+}
+
+// ===== BIBLE GAME =====
+const bibles=[
+  {v:'"Kasihilah sesamamu manusia seperti dirimu sendiri."',a:['matius 22:39','mat 22:39','matius 22'],d:'Matius 22:39',h:'📖 Injil pertama, pasal 22',lv:'Level 1 — Pemanasan ✨'},
+  {v:'"TUHAN adalah gembalaku, takkan kekurangan aku."',a:['mazmur 23:1','maz 23:1','mazmur 23'],d:'Mazmur 23:1',h:'📖 Kitab puisi, pasal 23',lv:'Level 1 — Pemanasan ✨'},
+  {v:'"Karena begitu besar kasih Allah akan dunia ini, sehingga Ia telah mengaruniakan Anak-Nya yang tunggal..."',a:['yohanes 3:16','yoh 3:16','yohanes 3'],d:'Yohanes 3:16',h:'📖 Injil keempat, ayat paling terkenal',lv:'Level 2 — Mulai Hangat 🌸'},
+  {v:'"Dua orang lebih baik dari pada seorang diri... karena kalau mereka jatuh, yang seorang mengangkat temannya."',a:['pengkhotbah 4:9','pkh 4:9','pengkhotbah 4'],d:'Pengkhotbah 4:9',h:'📖 Kitab hikmat, pasal 4',lv:'Level 2 — Mulai Hangat 🌸'},
+  {v:'"Kasih itu sabar; kasih itu murah hati; ia tidak cemburu. Ia tidak memegahkan diri dan tidak sombong."',a:['1 korintus 13:4','1kor 13:4','korintus 13:4','1 kor 13'],d:'1 Korintus 13:4',h:'📖 Surat Paulus, pasal kasih yang terkenal',lv:'Level 3 — Romantis 💕'},
+  {v:'"Tempatkan aku seperti meterai pada hatimu, seperti meterai pada lenganmu, karena cinta kuat seperti maut."',a:['kidung agung 8:6','kid 8:6','kidung agung 8'],d:'Kidung Agung 8:6',h:'📖 Kitab paling romantis di Alkitab 🌹',lv:'Level 3 — Romantis 💕'},
+  {v:'"Ke mana engkau pergi, ke situ jugalah aku pergi... di mana engkau mati, di situ pun aku mati."',a:['rut 1:16','ruth 1:16','rut 1'],d:'Rut 1:16',h:'📖 Kitab kesetiaan, pasal 1',lv:'Level 4 — So Sweet 🌷'},
+  {v:'"Aku kepunyaan kekasihku dan kekasihku kepunyaanku."',a:['kidung agung 6:3','kid 6:3','kidung agung 6'],d:'Kidung Agung 6:3',h:'📖 Kitab paling romantis lagi~ 🌹',lv:'Level 4 — So Sweet 🌷'},
+  {v:'"Kekasihku bercakap kepadaku: Bangunlah, manisku, jelitaku, dan marilah!"',a:['kidung agung 2:10','kid 2:10','kidung agung 2'],d:'Kidung Agung 2:10',h:'📖 Kidung Agung pasal 2 🌹',lv:'Level 5 — Most Romantic 🌹'},
+  {v:'"Kasih menutupi segala pelanggaran."',a:['amsal 10:12','ams 10:12','amsal 10'],d:'Amsal 10:12',h:'📖 Kitab Hikmat, pasal 10',lv:'Level 5 — Most Romantic 🌹'},
+];
+
+let bIdx=0, bScore=0, bAnswered=false, skipCount=0;
+const skipWarns=['Eits, nono~ 🙅','Jujur janggal nih, Kak 👀','Yahaha gak kena~ 😄','Jangan dipencet terus, capek tau 😤','Anah masih ngeyel juga 😒','Aih males ah 😑'];
+
+function loadBible(){
+  if(bIdx>=bibles.length){finishBible();return;}
+  bAnswered=false;
+  const q=bibles[bIdx];
+  document.getElementById('lvBadge').textContent=q.lv;
+  document.getElementById('verseBox').innerHTML=q.v+`<div class="verse-hint">${q.h}</div>`;
+  document.getElementById('bInput').value='';
+  document.getElementById('bFb').className='bible-fb';
+  document.getElementById('skipWarn').className='skip-warn';
+  document.getElementById('bProg').style.width=(bIdx/bibles.length*100)+'%';
+  document.getElementById('bProgTxt').textContent=bIdx+'/'+bibles.length;
+}
+
+function checkBible(){
+  if(bAnswered)return;
+  const inp=document.getElementById('bInput').value.trim().toLowerCase();
+  const q=bibles[bIdx];
+  const ok=q.a.some(a=>inp.includes(a)||a.includes(inp));
+  const fb=document.getElementById('bFb');
+  if(ok){
+    bScore++; fb.textContent='✅ Betul! Jawabannya '+q.d+' 🎉';
+    fb.className='bible-fb show ok'; confetti(22);
+  } else {
+    fb.textContent='❌ Belum tepat~ Jawabannya: '+q.d;
+    fb.className='bible-fb show no';
+  }
+  bAnswered=true;
+  setTimeout(()=>{bIdx++;loadBible();},2000);
+}
+
+function trySkip(){
+  if(bAnswered)return;
+  const warn=document.getElementById('skipWarn');
+  if(skipCount<skipWarns.length-1){
+    warn.textContent=skipWarns[skipCount];
+    warn.className='skip-warn show';
+    skipCount++;
+  } else {
+    // Last warning = "Aih males ah" → lock!
+    warn.textContent=skipWarns[skipWarns.length-1];
+    warn.className='skip-warn show';
+    setTimeout(()=>document.getElementById('lockScreen').classList.add('show'),800);
+  }
+}
+
+function finishBible(){
+  confetti(50);
+  document.getElementById('s-bible').innerHTML=`
+    <div class="card" style="border-color:#2a2010;text-align:center;padding:2rem;">
+      <div style="font-size:4rem;margin-bottom:0.8rem;">📖✨</div>
+      <div style="font-family:'Gaegu',cursive;font-size:1.8rem;font-weight:700;color:#c0a060;margin-bottom:0.5rem;">
+        Selesai! Score: ${bScore}/${bibles.length}
+      </div>
+      <div style="color:var(--soft);font-weight:600;margin-bottom:1.2rem;">
+        ${bScore>=8?'Kak Maria jago banget Alkitabnya! 🔥':bScore>=5?'Kak Maria hebat! Terus belajar ya~ 🌸':'Terus semangat belajar Alkitab, Kak! ✨'}
+      </div>
+      <button class="btn btn-p" onclick="goTo('s-riddle');loadRiddle();">Lanjut ke Mini Quiz! 🌷</button>
+    </div>`;
+}
+loadBible();
+
+// ===== LOCK SCREEN =====
+const PASS='saya berjanji gak akan skip lagi';
+function checkLock(){
+  const val=document.getElementById('lockInput').value.trim().toLowerCase();
+  const wrong=document.getElementById('lockWrong');
+  if(val===PASS){
+    document.getElementById('lockScreen').classList.remove('show');
+    skipCount=0;
+    wrong.style.display='none';
+    confetti(40);
+  } else if(val.length>=PASS.length){
+    wrong.style.display='block';
+  }
+}
+
+// ===== BOUQUET =====
+const bouquetDialogs = [
+  'Ngapain kak? 🤨',
+  'Eits gak kena~ 😄',
+  'Wlee gak kena juga! 😂',
+  'Yaoloh ngapain kak? 😩',
+  'Gak boleh pencet!! 😤',
+  'Anah masih mencet juga 🙄',
+  'Ah dahlah nyerah 😮‍💨'
+];
+
+// Rose grid state: 7 roses, shown/hidden
+const roseSlots = [
+  {row:'rr1', idx:0}, {row:'rr1', idx:1}, {row:'rr1', idx:2},
+  {row:'rr2', idx:0}, {row:'rr2', idx:1}, {row:'rr2', idx:2},
+  {row:'rr3', idx:0}, {row:'rr3', idx:1}, {row:'rr3', idx:2},
+];
+const roseRows = {
+  rr1: ['🌹','🌹','🌹'],
+  rr2: ['🌹','🌸','🌹'],
+  rr3: ['🌹','🌹','🌹'],
+};
+let roseVisible = {rr1:[true,true,true], rr2:[true,true,true], rr3:[true,true,true]};
+let bouquetStep = 0;
+let roseTimeout = null;
+
+function renderBouquet() {
+  ['rr1','rr2','rr3'].forEach(row => {
+    const emojis = roseRows[row];
+    document.getElementById(row).textContent =
+      emojis.map((e,i) => roseVisible[row][i] ? e : '　').join('');
+  });
+}
+
+function hideRandomRose() {
+  // Collect all visible slots
+  const visible = [];
+  Object.keys(roseVisible).forEach(row => {
+    roseVisible[row].forEach((v, i) => { if(v) visible.push({row, i}); });
+  });
+  if(visible.length === 0) return;
+  const pick = visible[Math.floor(Math.random() * visible.length)];
+  roseVisible[pick.row][pick.i] = false;
+  renderBouquet();
+}
+
+function touchBouquet() {
+  // Show dialog
+  const dlg = document.getElementById('bouquetDialog');
+  if(bouquetStep < bouquetDialogs.length) {
+    dlg.style.opacity = '0';
+    setTimeout(() => {
+      dlg.textContent = bouquetDialogs[bouquetStep];
+      dlg.style.opacity = '1';
+    }, 150);
+  }
+
+  // Hide 1-2 roses per tap (more aggressive as step increases)
+  const hideCount = bouquetStep < 3 ? 1 : 2;
+  for(let i = 0; i < hideCount; i++) hideRandomRose();
+
+  // On last dialog, all roses gone + surrender msg
+  if(bouquetStep === bouquetDialogs.length - 1) {
+    // Hide all remaining
+    ['rr1','rr2','rr3'].forEach(row => roseVisible[row] = [false,false,false]);
+    renderBouquet();
+    document.getElementById('roseTxt').textContent = 'Bunganya udah ilang semua 😭🌹';
+    document.getElementById('bouquet').onclick = null;
+    document.getElementById('bouquet').style.cursor = 'default';
+    // After 2s, bring roses back!
+    setTimeout(() => {
+      roseVisible = {rr1:[true,true,true],rr2:[true,true,true],rr3:[true,true,true]};
+      renderBouquet();
+      document.getElementById('roseTxt').textContent = 'Buket mawar virtual buat Kak Maria~ 🌹';
+      dlg.textContent = '...balik lagi deh bunganya 🌹 jangan diulangin ya!';
+      document.getElementById('bouquet').onclick = touchBouquet;
+      document.getElementById('bouquet').style.cursor = 'pointer';
+      bouquetStep = 0;
+      confetti(30);
+      // Show secret message after roses come back
+      setTimeout(() => showSecretMsg(), 800);
+    }, 2500);
+  } else {
+    // After short delay, restore some roses so it stays playful
+    if(roseTimeout) clearTimeout(roseTimeout);
+    roseTimeout = setTimeout(() => {
+      ['rr1','rr2','rr3'].forEach(row => {
+        roseVisible[row] = roseVisible[row].map(() => true);
+      });
+      renderBouquet();
+    }, 1200);
+    bouquetStep++;
+  }
+}
+
+// ===== SECRET MESSAGE TYPEWRITER =====
+const SECRET_TEXT = `[✏️ 
+
+Jadikan aku yang kedua😳
+Buatlah diriku bahagia😝
+Walau pun kau😯
+Takkan pernah
+Kumiliki selamanya😕]`;
+
+function showSecretMsg() {
+  const box = document.getElementById('secretMsg');
+  box.style.display = 'block';
+  box.style.animation = 'secretReveal 0.6s cubic-bezier(0.34,1.56,0.64,1) both';
+  typewriterStart(SECRET_TEXT);
+  confetti(15);
+}
+
+function typewriterStart(text) {
+  const el = document.getElementById('typewriterText');
+  const cursor = document.getElementById('typeCursor');
+  el.textContent = '';
+  cursor.style.display = 'inline-block';
+  let i = 0;
+  function typeNext() {
+    if (i >= text.length) {
+      setTimeout(() => { cursor.style.animation = 'none'; cursor.style.opacity = '1'; }, 1500);
+      return;
+    }
+    const ch = text[i];
+    el.textContent += ch;
+    i++;
+    const delay = /[.!?]/.test(ch) ? 420 : /[,~\n]/.test(ch) ? 200 : 30 + Math.random() * 40;
+    setTimeout(typeNext, delay);
+  }
+  typeNext();
+}
+
+const riddles=[
+  {q:'Apa yang bisa tumbuh tanpa disiram, terasa hangat tanpa api, dan membuat orang tersenyum tanpa alasan?',opts:['Pohon mangga','Perasaan suka 💕','Wifi gratis','Tidur siang'],ok:1,fb:'Bener~ Perasaan suka itu ajaib kan, Kak ? 🌸'},
+  {q:'Makin jauh jarak, makin kuat rasa rindu. Apa yang dimaksud?',opts:['Sinyal HP','Karet gelang','Rindu? 💗','Kacamata minus'],ok:2,fb:'Tepat! Rindu tanda sayang, katanya~ 💕'},
+  {q:'Seseorang diam-diam memperhatikan kamu, selalu ingin tahu kabarmu, tapi malu buat bilang langsung. Dia itu...',opts:['Detektif','Orang yang suka kamu 🌷','Stalker akun IG','Teman biasa'],ok:1,fb:'Hehe... mungkin ada loh yang kayak gitu sama Kak Maria 👀🌸'},
+  {q:'"Kasih itu sabar, kasih itu murah hati." — dari mana ayat ini?',opts:['Yohanes 3:16','Amsal 31','1 Korintus 13:4 💕','Roma 8:28'],ok:2,fb:'Betul! 1 Korintus 13:4 — favorit orang yang lagi suka seseorang 🌹'},
+  {q:'Kalau ada seseorang yang bikin hari kamu lebih berwarna, itu tandanya...',opts:['Butuh kacamata baru','Layar HP rusak','Dia spesial buat kamu 🌸','Cuaca lagi cerah aja'],ok:2,fb:'Yap! Kalau ada yang bikin hari lebih berwarna, jaga baik-baik ya Kak~ 💕✨'},
+];
+let rIdx=0, rAnswered=false;
+function loadRiddle(){
+  if(rIdx>=riddles.length){confetti(60);goTo('s-final');return;}
+  rAnswered=false;
+  const r=riddles[rIdx];
+  document.getElementById('riddleQ').textContent=r.q;
+  const opts=document.getElementById('riddleOpts');
+  opts.innerHTML='';
+  r.opts.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='riddle-btn'; b.textContent=o;
+    b.onclick=()=>answerRiddle(i,b);
+    opts.appendChild(b);
+  });
+  document.getElementById('riddleFb').className='riddle-fb';
+  document.getElementById('riddleNext').style.display='none';
+  document.getElementById('rProg').style.width=(rIdx/riddles.length*100)+'%';
+  document.getElementById('rProgTxt').textContent=rIdx+'/'+riddles.length;
+}
+function answerRiddle(idx,btn){
+  if(rAnswered)return; rAnswered=true;
+  const r=riddles[rIdx];
+  const all=document.querySelectorAll('.riddle-btn');
+  const fb=document.getElementById('riddleFb');
+  if(idx===r.ok){btn.classList.add('ok');fb.textContent=r.fb;fb.className='riddle-fb show ok-msg';confetti(18);}
+  else{btn.classList.add('no');all[r.ok].classList.add('ok');fb.textContent=r.fb;fb.className='riddle-fb show no-msg';}
+  document.getElementById('rProg').style.width=((rIdx+1)/riddles.length*100)+'%';
+  document.getElementById('rProgTxt').textContent=(rIdx+1)+'/'+riddles.length;
+  document.getElementById('riddleNext').style.display='inline-block';
+}
+function nextRiddle(){rIdx++;loadRiddle();}
+loadRiddle();
+</script>
+</body>
+</html>
